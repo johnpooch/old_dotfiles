@@ -15,7 +15,7 @@ set -o vi
 
 export DOCKER_UID=$UID
 export PATH=/usr/local/sbin:$PATH
-export todo="vim /Users/john/.todo.org"
+alias todo="vim /Users/john/.todo.org"
 
 function docker_watch {
     watch "docker ps --format 'table {{.Names}}\t{{.Ports}}'"
@@ -36,8 +36,6 @@ source /Users/john/.wilfrid/docker
 
 export PASSWORD_STORE_DIR=/Users/john/src/password-store
 
-export TECH_AUTH_PASS=Ak1deipeuxeanguk
-export SLACK_CLI_TOKEN=xoxp-3893667996-466781826405-556346587329-404793442a39549e650781ea800f8cc9
 # Set CLICOLOR if you want Ansi Colors in iTerm2
 export CLICOLOR=1
 
@@ -45,6 +43,8 @@ export CLICOLOR=1
 export TERM=xterm-256color
 
 # Aliases
+alias bashprofile='vi ~/.bash_profile'
+alias vimrc='vi ~/.vimrc'
 
 # OpenVPN
 alias Openvpn='cd /usr/local/Cellar/openvpn/2.4.6/ && sudo openvpn openvpn_internal.conf'
@@ -57,3 +57,5 @@ alias gch='git checkout'
 alias gplo='git pull origin'
 alias gpso='git push origin'
 alias gl='git log'
+
+source ~/.bash_secrets
