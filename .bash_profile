@@ -34,8 +34,6 @@ function docker_logs {
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 source /Users/john/.wilfrid/docker
 
-export PASSWORD_STORE_DIR=/Users/john/src/password-store
-
 # Set CLICOLOR if you want Ansi Colors in iTerm2
 export CLICOLOR=1
 
