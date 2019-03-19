@@ -60,6 +60,9 @@ Plugin 'tpope/vim-surround'
 " Tmux/vim pane navigation
 Plugin 'christoomey/vim-tmux-navigator'
 
+" Color schemes
+Plugin 'flazz/vim-colorschemes'
+
 " Keep Plugin commands between vundle#begin/end.
 
 call vundle#end()
