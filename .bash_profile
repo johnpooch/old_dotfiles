@@ -7,8 +7,6 @@ export PATH
 PS1='\h:\w\$ '
 PS2='> '
 
-set -o vi
-
 # Can `cd` into a repo from any location
 CDPATH=:'~/src'
 
@@ -41,8 +39,8 @@ alias gplo='git pull origin'
 alias gpso='git push origin'
 alias gl='git log'
 
-# source ~/.bash_secrets
-# source /Users/john/.wilfrid/docker
-# source /Users/john/.wilfrid/gpg
-# source /Users/john/.wilfrid/pass_qr
+source ~/.bash_secrets
+source /Users/john/.wilfrid/docker
+source /Users/john/.wilfrid/gpg
+source /Users/john/.wilfrid/pass_qr
 

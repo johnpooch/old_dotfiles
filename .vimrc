@@ -113,7 +113,6 @@ set numberwidth=2
 " Ignore certain pep rules
 let g:pymode_lint_ignore = ["E501", "W",]
 
-
 " Disable tmux navigator when zooming the Vim pane
 let g:tmux_navigator_disable_when_zoomed = 1
 
@@ -145,14 +144,19 @@ let g:html_indent_tags = 'li\|p'
 set splitbelow
 set splitright
 
-" Bracket complete
-inoremap " ""<left>
-inoremap ' ''<left>
+" =============================================================================
+" Bracket Complete
+" =============================================================================
+
 inoremap ( ()<left>
 inoremap [ []<left>
 inoremap { {}<left>
 inoremap {<CR> {<CR>}<ESC>O
-inoremap {;<CR> {<CR>};<ESC>O
+inoremap {;<CR> {<CR>};<ESC>
+
+"Surround code with braces
+nmap <Leader>{} O{<Esc>ddj>>ddkP
+vmap <Leader>{} <Esc>o{<Esc>ddgv>gvdp
 
 " Easier navigation between splits
 nnoremap <C-j> <C-w>j
@@ -161,8 +165,8 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
 " Easier moving between tabs
-map <Leader>n <esc>:tabprevious<CR>
-map <Leader>m <esc>:tabnext<CR>
+map <Leader>n <Esc>:tabprevious<CR>
+map <Leader>m <Esc>:tabnext<CR>
 
 " Map sort function to a key
 vnoremap <Leader>s :sort<CR>
