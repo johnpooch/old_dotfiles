@@ -20,24 +20,23 @@ export CLICOLOR=1
 # Set colors to match iTerm2 Terminal Colors
 export TERM=xterm-256color
 
+# =============================================================================
 # Aliases
+# =============================================================================
+
 alias bashprofile='vi ~/.bash_profile'
 alias vimrc='vi ~/.vimrc'
 alias tmuxconf='vi ~/.tmux.conf'
 alias todo="vi /Users/john/.todo.org"
 alias tmux="TERM=screen-256color-bce tmux"
 
+# Git/hub ---------------------------------------------------------------------
+alias git='hub'
+alias g='git status'
+
+
 # OpenVPN
 alias Openvpn='cd /usr/local/Cellar/openvpn/2.4.6/ && sudo openvpn openvpn_internal.conf'
-
-# Git
-alias g='git status'
-alias gc='git commit'
-alias gb='git branch'
-alias gch='git checkout'
-alias gplo='git pull origin'
-alias gpso='git push origin'
-alias gl='git log'
 
 source ~/.bash_secrets
 source /Users/john/.wilfrid/docker
