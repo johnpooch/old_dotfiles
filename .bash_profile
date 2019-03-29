@@ -42,4 +42,4 @@ source ~/.bash_secrets
 source /Users/john/.wilfrid/docker
 source /Users/john/.wilfrid/gpg
 source /Users/john/.wilfrid/pass_qr
-
+source /Users/john/.wilfrid/hub
