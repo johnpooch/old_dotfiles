@@ -78,8 +78,13 @@ filetype plugin indent on
 " Config
 " =============================================================================
 
-nnoremap <Up> :echoe "Use k"<CR>set encoding=utf-8
+" Leader key shortcuts --------------------------------------------------------
+" 
 let mapleader=","
+
+" leader-d docstring
+nnoremap <leader>d i"""<CR>"""<Esc>O
+
 set backspace=2 " Backspace deletes like most programs in insert mode
 set clipboard=unnamed " Normal copy & paste
 
