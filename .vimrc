@@ -98,6 +98,10 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
+" Use the same symbols as TextMate for tabstops and EOLs
+set list
+set listchars=tab:▸\ ,eol:¬
+
 " Make it obvious where 80 characters is
 set cc=80
 highlight ColorColumn ctermbg=8
@@ -144,15 +148,9 @@ let g:html_indent_tags = 'li\|p'
 set splitbelow
 set splitright
 
-" =============================================================================
-" Bracket Complete
-" =============================================================================
-
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
-inoremap {<CR> {<CR>}<ESC>O
-inoremap {;<CR> {<CR>};<ESC>
+if &diff
+    colorscheme molokai
+endif
 
 "Surround code with braces
 nmap <Leader>{} O{<Esc>ddj>>ddkP
@@ -178,3 +176,4 @@ vnoremap > >gv
 " easier formatting of paragraphs
 vmap Q gq
 nmap Q gqap
+
