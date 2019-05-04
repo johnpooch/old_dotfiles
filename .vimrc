@@ -1,6 +1,6 @@
-
 set nocompatible " off when a vimrc is found 
-filetype off
+
+filetype on
 
 " =============================================================================
 " Plugins
@@ -62,10 +62,9 @@ Plugin 'tpope/vim-surround'
 Plugin 'christoomey/vim-tmux-navigator'
 
 " Color schemes
-Plugin 'flazz/vim-colorschemes'
+Plugin 'chriskempson/base16-vim'
 
-" Keep Plugin commands between vundle#begin/end.
-
+" Keep Plugin commands between vundle#begin/end. 
 call vundle#end()
 filetype plugin indent on
 
@@ -78,6 +77,7 @@ filetype plugin indent on
 " =============================================================================
 " Config
 " =============================================================================
+
 
 " Leader key shortcuts --------------------------------------------------------
 " 
@@ -105,17 +105,16 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
-" Make it obvious where 80 characters is
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
+" Make space more useful
+nnoremap <space> za
+
 "
 " Use the same symbols as TextMate for tabstops and EOLs
 set list
 set listchars=tab:▸\ ,eol:¬
 
-" Make it obvious where 80 characters is
-set cc=80
-highlight ColorColumn ctermbg=8
+set fillchars+=vert:│
+hi StatusLine ctermbg=NONE ctermfg=NONE
 
 " Fuzzy find. Search down into folders
 set path+=**
@@ -165,13 +164,9 @@ let g:html_indent_tags = 'li\|p'
 set splitbelow
 set splitright
 
-if &diff
-    colorscheme molokai
-endif
-
 "Surround code with braces
-nmap <Leader>{} O{<Esc>ddj>>ddkP
-vmap <Leader>{} <Esc>o{<Esc>ddgv>gvdp
+nnoremap <Leader>{} O{<Esc>ddj>>ddkP
+vnoremap <Leader>{} <Esc>o{<Esc>ddgv>gvdp
 
 " Easier navigation between splits
 nnoremap <C-j> <C-w>j
@@ -180,8 +175,8 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
 " Easier moving between tabs
-map <Leader>n <Esc>:tabprevious<CR>
-map <Leader>m <Esc>:tabnext<CR>
+noremap <Leader>n <Esc>:tabprevious<CR>
+noremap <Leader>m <Esc>:tabnext<CR>
 
 " Map sort function to a key
 vnoremap <Leader>s :sort<CR>
@@ -191,6 +186,63 @@ vnoremap < <gv
 vnoremap > >gv
 
 " easier formatting of paragraphs
-vmap Q gq
-nmap Q gqap
+vnoremap Q gq
+nnoremap Q gqap
+
+" delete line in insert mode
+inoremap <C-d> <Esc>ddi
+
+" convert the current word to uppercase in normal mode
+nnoremap <C-u> viw~e
+
+" convert the current word to uppercase in insert mode
+inoremap <C-u> <Esc>viwUea
+
+" move lines up and down
+" TODO: _ doesn't work on bottom line
+" TODO: _ doesn't work on top line
+noremap - ddp
+noremap _ ddkP
+
+" edit vimrc
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+
+" source vimrc
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" strong moves
+nnoremap H ^
+nnoremap L $
+
+" Use jk to escape in insert mode
+inoremap jk <Esc> 
+inoremap <Up> <nop>
+inoremap <Down> <nop>
+inoremap <Left> <nop>
+inoremap <Right> <nop>
+
+" Add comment
+autocmd FileType javascript nnoremap <buffer> <localleader>c A  // <esc>
+autocmd FileType python     nnoremap <buffer> <localleader>c A  # <esc>
+
+autocmd FileType javascript nnoremap <buffer> <localleader>C I// <esc>
+autocmd FileType python     nnoremap <buffer> <localleader>C I# <esc>
+
+" Colors =====================================================================
+
+colorscheme base16-default-dark
+
+" Make it obvious where 80 characters is
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
+
+" Line number bar
+highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE
+            \ guifg=DarkGrey guibg=NONE
+" vsplit/split column
+hi VertSplit ctermbg=NONE ctermfg=NONE
+hi StatusLineNC ctermbg=bg ctermfg=fg
+
+" Status bar
+hi StatusLine ctermbg=bg ctermfg=NONE
 
