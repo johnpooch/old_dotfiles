@@ -93,6 +93,16 @@ set nobackup " Switch off automatic creation of backup files
 set nowritebackup
 set noswapfile
 
+" Fuzzy find -------------------------------------------------------------------
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_use_caching = 1
+let g:ctrlp_show_hidden = 0
+let g:ctrlp_open_new_file = 'v'
+" color highlighted tab
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.pyc
+
 set history=50 " Number of lines that are remembered
 set ruler " Show the cursor position all the time
 set showcmd " Displays incomplete commands at bottom right of window
@@ -222,6 +232,7 @@ inoremap <Left> <nop>
 inoremap <Right> <nop>
 
 " Add comment
+" TODO: comment out should work like a toggle
 autocmd FileType javascript nnoremap <buffer> <localleader>c A  // <esc>
 autocmd FileType python     nnoremap <buffer> <localleader>c A  # <esc>
 
@@ -239,10 +250,17 @@ match OverLength /\%81v.\+/
 " Line number bar
 highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE
             \ guifg=DarkGrey guibg=NONE
+
 " vsplit/split column
 hi VertSplit ctermbg=NONE ctermfg=NONE
 hi StatusLineNC ctermbg=bg ctermfg=fg
 
 " Status bar
 hi StatusLine ctermbg=bg ctermfg=NONE
+
+" Cursor Line
+hi CursorLine ctermbg=None
+
+" Visual
+hi Visual ctermbg=White ctermbg=DarkGrey
 
