@@ -34,7 +34,6 @@ alias tmux="TERM=screen-256color-bce tmux"
 alias git='hub'
 alias g='git status'
 
-
 # OpenVPN
 alias Openvpn='cd /usr/local/Cellar/openvpn/2.4.6/ && sudo openvpn openvpn_internal.conf'
 

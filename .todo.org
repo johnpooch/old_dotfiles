@@ -1,0 +1,18 @@
+
+Workflow -----------------------------------------------------------------------
+
+* Sort out styling on diffs
+* Integrate mail
+* Integrate slack
+
+Home ---------------------------------------------------------------------------
+
+* Clean Room
+* Hover apartment
+* Put amp in case
+* Sort out under bed
+* Do taj
+* Get coffee
+* Research moving stuff
+* Post ads
+

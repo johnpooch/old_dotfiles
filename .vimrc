@@ -214,11 +214,16 @@ inoremap <C-u> <Esc>viwUea
 noremap - ddp
 noremap _ ddkP
 
-" edit vimrc
+" Edit dotfiles ---------------------------------------------------------------
+"
+" Vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-
-" source vimrc
 nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" Bash profile
+nnoremap <leader>eb :vsplit ~/.bash_profile<cr>
+nnoremap <leader>sb :source ~/.bash_profile<cr>
+
 
 " strong moves
 nnoremap H ^
