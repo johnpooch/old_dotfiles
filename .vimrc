@@ -94,6 +94,7 @@ set nowritebackup
 set noswapfile
 
 " Fuzzy find -------------------------------------------------------------------
+
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
@@ -117,7 +118,6 @@ set expandtab
 
 " Make space more useful
 nnoremap <space> za
-
 "
 " Use the same symbols as TextMate for tabstops and EOLs
 set list
@@ -244,7 +244,28 @@ autocmd FileType python     nnoremap <buffer> <localleader>c A  # <esc>
 autocmd FileType javascript nnoremap <buffer> <localleader>C I// <esc>
 autocmd FileType python     nnoremap <buffer> <localleader>C I# <esc>
 
-" Colors =====================================================================
+" Fill rest of line with characters ------------------------------------------
+
+function! FillLine( str )
+    " set tw to the desired total length
+    let tw = &textwidth
+    if tw==0 | let tw = 80 | endif
+    " strip trailing spaces first
+    .s/[[:space:]]*$//
+    " calculate total number of 'str's to insert
+    let reps = (tw - col("$")) / len(a:str)
+    " insert them, if there's room, removing trailing spaces (though forcing
+    " there to be one)
+    if reps > 0
+        .s/$/\=(' '.repeat(a:str, reps))/
+    endif
+endfunction
+map <Leader>f= :call FillLine( '=' )<cr>
+map <Leader>f- :call FillLine( '-' )<cr>
+
+" ============================================================================
+" Colors
+" ============================================================================
 
 colorscheme base16-default-dark
 
