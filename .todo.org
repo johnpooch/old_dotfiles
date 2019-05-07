@@ -1,0 +1,21 @@
+* Workflow Improvements
+** Order design patterns book
+** The Bridge
+** Git history plugin
+** Linting
+** Relative numbering
+** disable or improve bracket complete
+** Yaml syntax formatting when filename contains '.yml'
+** Github cli integration
+*** Make hub_watch show prs that you're mentioned or tagged in
+*** Improve git diff color scheme
+*** Alias git difftool
+*** Do commenting function
+** Slack cli integration
+** Fine-tune bracket complete
+** tmux
+** vimdiff
+* RoyaleTxt
+** Get React to use channels
+*** Recreate the chat app using React
+*** Work through this - https://www.youtube.com/watch?v=84GXJANOYFw
