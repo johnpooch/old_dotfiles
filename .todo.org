@@ -1,21 +1,21 @@
-* Workflow Improvements
-** Order design patterns book
-** The Bridge
-** Git history plugin
-** Linting
-** Relative numbering
-** disable or improve bracket complete
-** Yaml syntax formatting when filename contains '.yml'
-** Github cli integration
-*** Make hub_watch show prs that you're mentioned or tagged in
-*** Improve git diff color scheme
-*** Alias git difftool
-*** Do commenting function
-** Slack cli integration
-** Fine-tune bracket complete
-** tmux
-** vimdiff
-* RoyaleTxt
-** Get React to use channels
-*** Recreate the chat app using React
-*** Work through this - https://www.youtube.com/watch?v=84GXJANOYFw
+
+Workflow -----------------------------------------------------------------------
+
+* Sort out styling on diffs
+* Integrate mail
+* Integrate slack
+
+Home ---------------------------------------------------------------------------
+
+* Hover apartment
+* Sort out under bed
+* Do taj
+* Post ads
+* iPhone storage
+* Arrange moving stuff with Bearded Bros
+
+Music --------------------------------------------------------------------------
+
+* Record guitar for spitkissing
+* Mix the stars
+>>>>>>> 25ad7e2b4f2ac7fcb536558fcd91c10578d8ea18

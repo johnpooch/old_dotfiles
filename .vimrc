@@ -1,5 +1,6 @@
 set nocompatible " off when a vimrc is found 
-filetype off
+
+filetype on
 
 " =============================================================================
 " Plugins
@@ -61,10 +62,9 @@ Plugin 'tpope/vim-surround'
 Plugin 'christoomey/vim-tmux-navigator'
 
 " Color schemes
-Plugin 'flazz/vim-colorschemes'
+Plugin 'chriskempson/base16-vim'
 
-" Keep Plugin commands between vundle#begin/end.
-
+" Keep Plugin commands between vundle#begin/end. 
 call vundle#end()
 filetype plugin indent on
 
@@ -77,6 +77,7 @@ filetype plugin indent on
 " =============================================================================
 " Config
 " =============================================================================
+
 
 " Leader key shortcuts --------------------------------------------------------
 " 
@@ -92,6 +93,17 @@ set nobackup " Switch off automatic creation of backup files
 set nowritebackup
 set noswapfile
 
+" Fuzzy find -------------------------------------------------------------------
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_use_caching = 1
+let g:ctrlp_show_hidden = 0
+let g:ctrlp_open_new_file = 'v'
+" color highlighted tab
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.pyc
+
 set history=50 " Number of lines that are remembered
 set ruler " Show the cursor position all the time
 set showcmd " Displays incomplete commands at bottom right of window
@@ -99,17 +111,20 @@ set incsearch " Do incremental searching
 set autowrite " Automatically :write before running commands
 
 syntax on " Syntax highlighting
+filetype plugin indent on
 set tabstop=4
 set shiftwidth=4
 set expandtab
 
+" Make space more useful
+nnoremap <space> za
+"
 " Use the same symbols as TextMate for tabstops and EOLs
 set list
 set listchars=tab:▸\ ,eol:¬
 
-" Make it obvious where 80 characters is
-set cc=80
-highlight ColorColumn ctermbg=8
+set fillchars+=vert:│
+hi StatusLine ctermbg=NONE ctermfg=NONE
 
 " Fuzzy find. Search down into folders
 set path+=**
@@ -130,6 +145,12 @@ let g:tmux_navigator_disable_when_zoomed = 1
 " will use completion if not at beginning
 set wildmode=list:longest,list:full
 function! InsertTabWrapper()
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<Tab>"
+    else
+        return "\<C-p>"
+    endif
 let col = col('.') - 1
 if !col || getline('.')[col - 1] !~ '\k'
     return "\<Tab>"
@@ -153,13 +174,9 @@ let g:html_indent_tags = 'li\|p'
 set splitbelow
 set splitright
 
-if &diff
-    colorscheme molokai
-endif
-
 "Surround code with braces
-nmap <Leader>{} O{<Esc>ddj>>ddkP
-vmap <Leader>{} <Esc>o{<Esc>ddgv>gvdp
+nnoremap <Leader>{} O{<Esc>ddj>>ddkP
+vnoremap <Leader>{} <Esc>o{<Esc>ddgv>gvdp
 
 " Easier navigation between splits
 nnoremap <C-j> <C-w>j
@@ -168,8 +185,8 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
 " Easier moving between tabs
-map <Leader>n <Esc>:tabprevious<CR>
-map <Leader>m <Esc>:tabnext<CR>
+noremap <Leader>n <Esc>:tabprevious<CR>
+noremap <Leader>m <Esc>:tabnext<CR>
 
 " Map sort function to a key
 vnoremap <Leader>s :sort<CR>
@@ -179,6 +196,97 @@ vnoremap < <gv
 vnoremap > >gv
 
 " easier formatting of paragraphs
-vmap Q gq
-nmap Q gqap
+vnoremap Q gq
+nnoremap Q gqap
+
+" delete line in insert mode
+inoremap <C-d> <Esc>ddi
+
+" convert the current word to uppercase in normal mode
+nnoremap <C-u> viw~e
+
+" convert the current word to uppercase in insert mode
+inoremap <C-u> <Esc>viwUea
+
+" move lines up and down
+" TODO: _ doesn't work on bottom line
+" TODO: _ doesn't work on top line
+noremap - ddp
+noremap _ ddkP
+
+" Edit dotfiles ---------------------------------------------------------------
+"
+" Vimrc
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" Bash profile
+nnoremap <leader>eb :vsplit ~/.bash_profile<cr>
+nnoremap <leader>sb :source ~/.bash_profile<cr>
+
+
+" strong moves
+nnoremap H ^
+nnoremap L $
+
+" Use jk to escape in insert mode
+inoremap jk <Esc> 
+inoremap <Up> <nop>
+inoremap <Down> <nop>
+inoremap <Left> <nop>
+inoremap <Right> <nop>
+
+" Add comment
+" TODO: comment out should work like a toggle
+autocmd FileType javascript nnoremap <buffer> <localleader>c A  // <esc>
+autocmd FileType python     nnoremap <buffer> <localleader>c A  # <esc>
+
+autocmd FileType javascript nnoremap <buffer> <localleader>C I// <esc>
+autocmd FileType python     nnoremap <buffer> <localleader>C I# <esc>
+
+" Fill rest of line with characters ------------------------------------------
+
+function! FillLine( str )
+    " set tw to the desired total length
+    let tw = &textwidth
+    if tw==0 | let tw = 80 | endif
+    " strip trailing spaces first
+    .s/[[:space:]]*$//
+    " calculate total number of 'str's to insert
+    let reps = (tw - col("$")) / len(a:str)
+    " insert them, if there's room, removing trailing spaces (though forcing
+    " there to be one)
+    if reps > 0
+        .s/$/\=(' '.repeat(a:str, reps))/
+    endif
+endfunction
+map <Leader>f= :call FillLine( '=' )<cr>
+map <Leader>f- :call FillLine( '-' )<cr>
+
+" ============================================================================
+" Colors
+" ============================================================================
+
+colorscheme base16-default-dark
+
+" Make it obvious where 80 characters is
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
+
+" Line number bar
+highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE
+            \ guifg=DarkGrey guibg=NONE
+
+" vsplit/split column
+hi VertSplit ctermbg=NONE ctermfg=NONE
+hi StatusLineNC ctermbg=bg ctermfg=fg
+
+" Status bar
+hi StatusLine ctermbg=bg ctermfg=NONE
+
+" Cursor Line
+hi CursorLine ctermbg=None
+
+" Visual
+hi Visual ctermbg=White ctermbg=DarkGrey
 
