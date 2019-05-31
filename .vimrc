@@ -13,35 +13,23 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" File system explorer
-Plugin 'scrooloose/nerdtree'
-
-" Yaml syntax and indentation
-Plugin 'mrk21/yaml-vim'
-
-" Org mode
-Plugin 'jceb/vim-orgmode'
-
 " Dates
 Plugin 'tpope/vim-speeddating'
 
-" Hyperlinking
-Plugin 'utl.vim'
+" Bracket Surround
+Plugin 'tpope/vim-surround'
 
-" Repeat
-Plugin 'tpope/vim-repeat'
+" Color schemes
+Plugin 'chriskempson/base16-vim'
+
+" Tmux/vim pane navigation
+Plugin 'christoomey/vim-tmux-navigator'
 
 " Tag List
 Plugin 'taglist.vim'
 
-" Tag Bar
-Plugin 'majutsushi/tagbar'
-
-" Narrow Region
-Plugin 'chrisbra/nrrwrgn'
-
-" Syntax Range
-Plugin 'SyntaxRange'
+" Yaml syntax and indentation
+Plugin 'mrk21/yaml-vim'
 
 " Statusline
 Plugin 'powerline/powerline'
@@ -52,17 +40,8 @@ Plugin 'kien/ctrlp.vim'
 " JS syntax highlighting and indentation
 Plugin 'pangloss/vim-javascript'
 
-" Folding
-" Plugin 'btpht/python_editing'
-
-" Bracket Surround
-Plugin 'tpope/vim-surround'
-
-" Tmux/vim pane navigation
-Plugin 'christoomey/vim-tmux-navigator'
-
-" Color schemes
-Plugin 'chriskempson/base16-vim'
+" Jinja2 syntax highlighting
+Plugin 'glench/vim-jinja2-syntax'
 
 " Keep Plugin commands between vundle#begin/end. 
 call vundle#end()
@@ -115,6 +94,15 @@ filetype plugin indent on
 set tabstop=4
 set shiftwidth=4
 set expandtab
+"
+" Use tabs for html
+autocmd BufRead,BufNewFile *.htm,*.html setlocal noexpandtab
+
+" Use jinja filetype for j2
+augroup jinja_ft
+  au!
+  autocmd BufNewFile,BufRead *.j2 set filetype=jinja
+augroup END
 
 " Make space more useful
 nnoremap <space> za

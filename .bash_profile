@@ -27,7 +27,7 @@ export TERM=xterm-256color
 alias bashprofile='vi ~/.bash_profile'
 alias vimrc='vi ~/.vimrc'
 alias tmuxconf='vi ~/.tmux.conf'
-alias todo="vi ~/.todo.org"
+alias todo="vi ~/.todo.work.org"
 alias tmux="TERM=screen-256color-bce tmux"
 
 # Git/hub ---------------------------------------------------------------------
@@ -40,6 +40,3 @@ alias Openvpn='cd /usr/local/Cellar/openvpn/2.4.6/ && sudo openvpn openvpn_inter
 source ~/.wilfrid/docker
 source ~/.wilfrid/gpg
 source ~/.wilfrid/pass_qr
-source /Users/johnmcdowell/.wilfrid/docker
-source /Users/johnmcdowell/.wilfrid/gpg
-source /Users/johnmcdowell/.wilfrid/pass_qr
