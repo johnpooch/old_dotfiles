@@ -43,6 +43,9 @@ Plugin 'pangloss/vim-javascript'
 " Jinja2 syntax highlighting
 Plugin 'glench/vim-jinja2-syntax'
 
+" Status for vim
+Plugin 'bling/vim-airline'
+
 " Keep Plugin commands between vundle#begin/end. 
 call vundle#end()
 filetype plugin indent on
@@ -62,9 +65,6 @@ filetype plugin indent on
 " 
 let mapleader=","
 
-" leader-d docstring
-nnoremap <leader>d i"""<CR>"""<Esc>O
-
 set backspace=2 " Backspace deletes like most programs in insert mode
 set clipboard=unnamed " Normal copy & paste
 
@@ -80,6 +80,7 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_use_caching = 1
 let g:ctrlp_show_hidden = 0
 let g:ctrlp_open_new_file = 'v'
+"
 " color highlighted tab
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.pyc
 
@@ -250,6 +251,42 @@ function! FillLine( str )
 endfunction
 map <Leader>f= :call FillLine( '=' )<cr>
 map <Leader>f- :call FillLine( '-' )<cr>
+
+" ============================================================================
+" Status line
+" ============================================================================
+
+let g:airline#extensions#tabline#enabled = 1
+
+" ============================================================================
+" Buffers
+" ============================================================================
+
+"Easy changing between buffers
+nnoremap <Tab> :bnext<CR>
+nnoremap <S-Tab> :bprevious<CR>
+
+" Delete buffer
+nnoremap <C-X> :bdelete<CR>
+
+" ============================================================================
+" Nvim Terminal
+" ============================================================================
+
+" Maps ESC to exit terminal's insert mode
+if has('nvim')
+  tnoremap <Esc> <C-\><C-n>
+endif
+
+if has('nvim')
+  augroup neovim_terminal
+    autocmd!
+    " Enter Terminal-mode (insert) automatically
+    autocmd TermOpen * startinsert
+    " Disables number lines on terminal buffers
+    autocmd TermOpen * :set nonumber norelativenumber
+  augroup END
+endif
 
 " ============================================================================
 " Colors
