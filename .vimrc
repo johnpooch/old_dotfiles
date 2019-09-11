@@ -1,4 +1,4 @@
-set nocompatible " off when a vimrc is found 
+set nocompatible " off when a vimrc is found
 
 filetype on
 
@@ -13,11 +13,33 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+" ----------------------------------------------------------------------------
+" Tim Pope Plugins
+" ----------------------------------------------------------------------------
+
 " Dates
 Plugin 'tpope/vim-speeddating'
 
 " Bracket Surround
 Plugin 'tpope/vim-surround'
+
+" Comment stuff out
+Plugin 'tpope/vim-commentary'
+
+" Git wrapper
+Plugin 'tpope/vim-fugitive'
+
+" Disables search highlighting when you are done searching
+Plugin 'romainl/vim-cool'
+
+" Python indentation
+Plugin 'hynek/vim-python-pep8-indent'
+
+" Python folding
+Plugin 'tmhedberg/simpylfold'
+
+" " LISP
+" Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Color schemes
 Plugin 'chriskempson/base16-vim'
@@ -43,10 +65,10 @@ Plugin 'pangloss/vim-javascript'
 " Jinja2 syntax highlighting
 Plugin 'glench/vim-jinja2-syntax'
 
-" Status for vim
-Plugin 'bling/vim-airline'
+" Linting
+Plugin 'w0rp/ale'
 
-" Keep Plugin commands between vundle#begin/end. 
+" Keep Plugin commands between vundle#begin/end.
 call vundle#end()
 filetype plugin indent on
 
@@ -62,7 +84,7 @@ filetype plugin indent on
 
 
 " Leader key shortcuts --------------------------------------------------------
-" 
+"
 let mapleader=","
 
 set backspace=2 " Backspace deletes like most programs in insert mode
@@ -80,7 +102,19 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_use_caching = 1
 let g:ctrlp_show_hidden = 0
 let g:ctrlp_open_new_file = 'v'
-"
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|static\'
+
+" change cursor and highlight bar when in insert mode
+if exists('$TMUX')
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+autocmd InsertEnter * set cul
+autocmd InsertLeave * set nocul
+
 " color highlighted tab
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.pyc
 
@@ -91,13 +125,15 @@ set incsearch " Do incremental searching
 set autowrite " Automatically :write before running commands
 
 syntax on " Syntax highlighting
+autocmd BufNewFile,BufRead *.coveragerc set syntax=dosini
 filetype plugin indent on
 set tabstop=4
 set shiftwidth=4
 set expandtab
 "
-" Use tabs for html
+" Use tabs for html and jinja2
 autocmd BufRead,BufNewFile *.htm,*.html setlocal noexpandtab
+autocmd BufRead,BufNewFile *.j2 setlocal noexpandtab
 
 " Use jinja filetype for j2
 augroup jinja_ft
@@ -106,7 +142,7 @@ augroup jinja_ft
 augroup END
 
 " Make space more useful
-nnoremap <space> za
+nnoremap <space> zA
 "
 " Use the same symbols as TextMate for tabstops and EOLs
 set list
@@ -120,7 +156,8 @@ set path+=**
 set wildmenu
 
 " Numbers
-set number
+set number          " Show line numbers
+set relativenumber  " Use relative line numbers
 set numberwidth=2
 
 " Ignore certain pep rules
@@ -206,7 +243,7 @@ noremap _ ddkP
 " Edit dotfiles ---------------------------------------------------------------
 "
 " Vimrc
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ev :vsplit ~/.vimrc<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " Bash profile
@@ -219,7 +256,7 @@ nnoremap H ^
 nnoremap L $
 
 " Use jk to escape in insert mode
-inoremap jk <Esc> 
+inoremap jk <Esc>
 inoremap <Up> <nop>
 inoremap <Down> <nop>
 inoremap <Left> <nop>
@@ -233,12 +270,14 @@ autocmd FileType python     nnoremap <buffer> <localleader>c A  # <esc>
 autocmd FileType javascript nnoremap <buffer> <localleader>C I// <esc>
 autocmd FileType python     nnoremap <buffer> <localleader>C I# <esc>
 
+let tw = 79
+
 " Fill rest of line with characters ------------------------------------------
 
 function! FillLine( str )
     " set tw to the desired total length
     let tw = &textwidth
-    if tw==0 | let tw = 80 | endif
+    if tw==0 | let tw = 79 | endif
     " strip trailing spaces first
     .s/[[:space:]]*$//
     " calculate total number of 'str's to insert
@@ -253,10 +292,10 @@ map <Leader>f= :call FillLine( '=' )<cr>
 map <Leader>f- :call FillLine( '-' )<cr>
 
 " ============================================================================
-" Status line
+" Ctags
 " ============================================================================
 
-let g:airline#extensions#tabline#enabled = 1
+nnoremap <leader>t :!ctags -R --exclude=node_modules -f ./tags $(python3 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")<CR>
 
 " ============================================================================
 " Buffers
@@ -289,17 +328,62 @@ if has('nvim')
 endif
 
 " ============================================================================
+" Spell
+" ============================================================================
+
+" augroup spelling
+"   autocmd!
+"   autocmd BufEnter,WinEnter,FileType python
+"         \ set spell
+" augroup END
+
+set spelllang=en_us
+
+" ============================================================================
+" SignColumn
+" ============================================================================
+
+" SignColumn always appears
+set signcolumn=yes
+
+" ============================================================================
+" Folds
+" ============================================================================
+
+let g:SimpylFold_fold_docstring = 0
+
+set fillchars=fold:\  " Not trailing whitespace.
+
+function! MyFoldText()
+    let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
+    let line = getline(v:foldstart)
+    let comment = substitute(line, '/\*\|\*/\|{{{\d\=', '', 'g')
+    let txt = '' . comment
+    return txt
+endfunction
+
+set foldtext=MyFoldText()
+
+" ============================================================================
 " Colors
 " ============================================================================
 
 colorscheme base16-default-dark
+let base16colorspace=256  " Access colors present in 256 colorspace
 
-" Make it obvious where 80 characters is
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
+augroup columnLimit
+  autocmd!
+  autocmd BufEnter,WinEnter,FileType python
+        \ highlight CollumnLimit ctermbg=DarkGrey guibg=DarkGrey
+  let collumnLimit = 80 " feel free to customize
+  let pattern =
+        \ '\%<' . (collumnLimit+1) . 'v.\%>' . collumnLimit . 'v'
+  autocmd BufEnter,WinEnter,FileType python
+        \ let w:m1=matchadd('CollumnLimit', pattern, -1)
+augroup END
 
 " Line number bar
-highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE
+highlight LineNr term=bold cterm=NONE ctermfg=DarkGray ctermbg=NONE gui=NONE
             \ guifg=DarkGrey guibg=NONE
 
 " vsplit/split column
@@ -307,11 +391,27 @@ hi VertSplit ctermbg=NONE ctermfg=NONE
 hi StatusLineNC ctermbg=bg ctermfg=fg
 
 " Status bar
-hi StatusLine ctermbg=bg ctermfg=NONE
+hi StatusLine ctermbg=bg ctermfg=white
 
 " Cursor Line
-hi CursorLine ctermbg=None
+hi CursorLine term=bold cterm=bold ctermbg=bg
+hi CursorLineNr ctermbg=green ctermfg=black
 
 " Visual
 hi Visual ctermbg=White ctermbg=DarkGrey
 
+" Todo
+hi Todo ctermbg=White ctermbg=DarkGrey
+
+" Search
+hi Search cterm=NONE ctermfg=white ctermbg=DarkRed
+
+" Folds
+hi Folded ctermfg=blue ctermbg=none
+
+" SignColumn
+hi SignColumn ctermbg=none
+
+" Autocomplete menu
+hi Pmenu ctermbg=white ctermfg=black
+hi PmenuSel ctermfg=black

@@ -17,8 +17,8 @@ export PATH=/usr/local/sbin:$PATH
 # Set CLICOLOR if you want Ansi Colors in iTerm2
 export CLICOLOR=1
 
-# Set colors to match iTerm2 Terminal Colors
-export TERM=xterm-256color
+# # Set colors to match iTerm2 Terminal Colors
+# export TERM=xterm-256color
 
 # Use neovim as preferred editor
 export VISUAL=nvim
@@ -45,6 +45,9 @@ alias tmuxconf='vi ~/.tmux.conf'
 alias todo="vi ~/.todo.work.org"
 alias tmux="TERM=screen-256color-bce tmux"
 
+# Adds everything on the python path to tags
+alias pythontags="ctags -R --fields=+l --languages=python --python-kinds=-iv -f ./tags \$(python -c \"import os, sys; print(' '.join('{}'.format(d) for d in sys.path if os.path.isdir(d)))\")"
+
 # Neovim -----------------------------------------------------------------------
 alias vi=nvim
 alias vim=nvim
@@ -59,3 +62,4 @@ alias Openvpn='cd /usr/local/Cellar/openvpn/2.4.6/ && sudo openvpn openvpn_inter
 source ~/.wilfrid/docker
 source ~/.wilfrid/gpg
 source ~/.wilfrid/pass_qr
+
