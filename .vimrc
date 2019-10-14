@@ -132,8 +132,8 @@ set shiftwidth=4
 set expandtab
 "
 " Use tabs for html and jinja2
-autocmd BufRead,BufNewFile *.htm,*.html setlocal noexpandtab
-autocmd BufRead,BufNewFile *.j2 setlocal noexpandtab
+" autocmd BufRead,BufNewFile *.htm,*.html setlocal noexpandtab
+" autocmd BufRead,BufNewFile *.j2 setlocal noexpandtab
 
 " Use jinja filetype for j2
 augroup jinja_ft
